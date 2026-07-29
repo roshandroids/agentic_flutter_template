@@ -11,6 +11,8 @@ environment:
   flutter: ">=3.24.0"
 
 dependencies:
+  analytics:
+    path: ../../modules/analytics
   core:
     path: ../../packages/core
   design_system:
@@ -24,6 +26,8 @@ dependencies:
   intl: ^0.20.2
   local_storage:
     path: ../../packages/local_storage
+  module_contracts:
+    path: ../../modules/module_contracts
   network:
     path: ../../packages/network
 

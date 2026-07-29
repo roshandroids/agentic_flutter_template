@@ -28,7 +28,8 @@ platforms:
 # modules/module_contracts. `scripts/new_module.sh` appends here;
 # `scripts/doctor.sh` fails if an entry has no matching directory.
 modules:
-  enabled: []
+  enabled:
+    - analytics
   available:
     - firebase
     - supabase

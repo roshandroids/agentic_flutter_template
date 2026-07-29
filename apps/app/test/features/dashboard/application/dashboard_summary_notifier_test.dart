@@ -5,6 +5,7 @@ import 'package:app/features/dashboard/domain/repositories/dashboard_repository.
 import 'package:core/core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:module_contracts/module_contracts.dart';
 
 class _FakeDashboardRepository implements DashboardRepository {
   Result<DashboardSummary, Failure> Function() onFetch = () => Ok(
@@ -17,6 +18,17 @@ class _FakeDashboardRepository implements DashboardRepository {
 
   @override
   Future<Result<DashboardSummary, Failure>> fetchSummary() async => onFetch();
+}
+
+class _FakeAnalyticsModule implements AnalyticsModule {
+  final events = <String>[];
+
+  @override
+  void logEvent(String name, {Map<String, Object?> parameters = const {}}) =>
+      events.add(name);
+
+  @override
+  void setUserProperty(String name, String? value) {}
 }
 
 void main() {
@@ -71,5 +83,46 @@ void main() {
       final state = container.read(dashboardSummaryProvider);
       expect(state.value?.itemCount, 2);
     });
+
+    test(
+      'logs a dashboard_viewed event via the analytics module on build',
+      () async {
+        final analytics = _FakeAnalyticsModule();
+        final container = ProviderContainer(
+          overrides: [
+            dashboardRepositoryProvider.overrideWithValue(
+              _FakeDashboardRepository(),
+            ),
+            analyticsModuleProvider.overrideWithValue(analytics),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        await container.read(dashboardSummaryProvider.future);
+
+        expect(analytics.events, ['dashboard_viewed']);
+      },
+    );
+
+    test(
+      'logs a dashboard_refreshed event via the analytics module on refresh',
+      () async {
+        final analytics = _FakeAnalyticsModule();
+        final container = ProviderContainer(
+          overrides: [
+            dashboardRepositoryProvider.overrideWithValue(
+              _FakeDashboardRepository(),
+            ),
+            analyticsModuleProvider.overrideWithValue(analytics),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        await container.read(dashboardSummaryProvider.future);
+        await container.read(dashboardSummaryProvider.notifier).refresh();
+
+        expect(analytics.events, ['dashboard_viewed', 'dashboard_refreshed']);
+      },
+    );
   });
 }

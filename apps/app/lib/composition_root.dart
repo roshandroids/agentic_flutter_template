@@ -1,6 +1,8 @@
+import 'package:analytics/analytics.dart';
 import 'package:core/core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_storage/local_storage.dart';
+import 'package:module_contracts/module_contracts.dart';
 import 'package:network/network.dart';
 
 import 'features/dashboard/domain/repositories/dashboard_repository.dart';
@@ -41,4 +43,27 @@ final apiClientProvider = Provider<ApiClient>(
 
 final dashboardRepositoryProvider = Provider<DashboardRepository>(
   (ref) => DashboardRepositoryImpl(ref.watch(apiClientProvider)),
+);
+
+/// The template's first real module binding - see modules/README.md.
+/// Feature code depends on `AnalyticsModule` (from `module_contracts`),
+/// never on `ConsoleAnalyticsModule` directly. Swapping analytics
+/// providers means changing this one line, not any feature code.
+final analyticsModuleProvider = Provider<AnalyticsModule>(
+  (ref) => ConsoleAnalyticsModule(),
+);
+
+/// Diagnostics-only metadata about the modules enabled above - see
+/// modules/README.md "Module registry (diagnostics only)". Built by hand
+/// to mirror `template.config.yaml`'s `modules.enabled` list; nothing
+/// resolves a module through this, it only reports on what's already
+/// wired for tooling like the Playground's Modules screen.
+final moduleRegistryProvider = Provider<ModuleRegistry>(
+  (ref) => const ModuleRegistry([
+    ModuleDescriptor(
+      id: 'analytics',
+      version: '0.1.0',
+      capabilities: {'AnalyticsModule'},
+    ),
+  ]),
 );

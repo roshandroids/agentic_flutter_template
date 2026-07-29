@@ -13,12 +13,16 @@ final dashboardSummaryProvider =
 
 class DashboardSummaryNotifier extends AsyncNotifier<DashboardSummary> {
   @override
-  Future<DashboardSummary> build() => _fetch();
+  Future<DashboardSummary> build() {
+    ref.read(analyticsModuleProvider).logEvent('dashboard_viewed');
+    return _fetch();
+  }
 
   /// The mutation pattern every feature should follow: set loading, wrap
   /// the body in `AsyncValue.guard` so a thrown [Failure] becomes
   /// `AsyncValue.error` with consistent semantics, no per-call try/catch.
   Future<void> refresh() async {
+    ref.read(analyticsModuleProvider).logEvent('dashboard_refreshed');
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(_fetch);
   }
