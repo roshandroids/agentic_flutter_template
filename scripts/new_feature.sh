@@ -33,20 +33,33 @@ cp -R "$ROOT/templates/feature_template/domain" \
 cp -R "$ROOT/templates/feature_template/test" "$DEST_TEST"
 
 log "Renaming tokenized files"
-find "$DEST_LIB" "$DEST_TEST" -depth -name '*__feature__*' -print0 | while IFS= read -r -d '' path; do
-  newpath="$(dirname "$path")/$(basename "$path" | sed "s/__feature__/$NAME/g")"
+find "$DEST_LIB" "$DEST_TEST" -depth -name '*feature_name*' -print0 | while IFS= read -r -d '' path; do
+  newpath="$(dirname "$path")/$(basename "$path" | sed "s/feature_name/$NAME/g")"
   mv "$path" "$newpath"
 done
 
 log "Substituting tokens"
 PASCAL="$(to_pascal_case "$NAME")"
 CAMEL="$(to_camel_case "$NAME")"
-# __featureCamel__ (variable-name position, e.g. `smokeTestFeatureProvider`)
-# must be substituted before __feature__ - a snake_case name substituted
-# directly into a variable name (`smoke_test_featureProvider`) isn't valid
-# lowerCamelCase, which is exactly the bug this token exists to avoid.
+# Tokens are public Dart identifiers (no leading "_") so the template
+# itself analyzes cleanly - a leading underscore would make names
+# library-private and break cross-file references in the scaffold.
+# featureName (variable-name position, e.g. `smokeTestFeatureProvider`)
+# must be substituted before feature_name - a snake_case name substituted
+# into a camelCase identifier isn't valid lowerCamelCase.
 find "$DEST_LIB" "$DEST_TEST" -type f -name '*.dart' -print0 | xargs -0 \
-  sed -i '' -e "s/__featureCamel__/$CAMEL/g" -e "s/__feature__/$NAME/g" -e "s/__Feature__/$PASCAL/g"
+  sed -i '' -e "s/featureName/$CAMEL/g" -e "s/FeatureName/$PASCAL/g" -e "s/feature_name/$NAME/g"
+
+log "Rewriting test imports for apps/app layout"
+# Template tests use relative imports so templates/feature_template analyzes
+# in place. After copy, lib/ and test/ live under different trees - switch
+# to package:app imports.
+find "$DEST_TEST" -type f -name '*.dart' -print0 | xargs -0 \
+  sed -i '' \
+    -e "s|import '../../domain/|import 'package:app/features/$NAME/domain/|g" \
+    -e "s|import '../../application/|import 'package:app/features/$NAME/application/|g" \
+    -e "s|import '../../presentation/|import 'package:app/features/$NAME/presentation/|g" \
+    -e "s|import '../../infrastructure/|import 'package:app/features/$NAME/infrastructure/|g"
 
 echo
 echo "Created apps/app/lib/features/$NAME and apps/app/test/features/$NAME. Next steps:"

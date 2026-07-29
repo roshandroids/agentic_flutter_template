@@ -1,0 +1,30 @@
+# Analyzable in-place under templates/. scripts/new_feature.sh does NOT
+# copy this file - it only copies domain/application/infrastructure/
+# presentation/ and test/ into apps/app.
+name: feature_template
+description: >
+  Scaffold sources for ./scripts/new_feature.sh. Tokens FeatureName /
+  featureName / feature_name are public Dart identifiers (leading "_" would
+  make them library-private) and are substituted at scaffold time.
+publish_to: "none"
+version: 0.0.0
+environment:
+  sdk: ^3.10.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  core:
+    path: ../../packages/core
+  design_system:
+    path: ../../packages/design_system
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.6.1
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

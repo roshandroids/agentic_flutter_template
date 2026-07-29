@@ -30,6 +30,11 @@ speculative "watch out for" notes.
   it as literal text instead of erroring). Use `to_pascal_case`/
   `to_camel_case` from `scripts/lib/common.sh` for snake_case conversions,
   not `${NAME^}` or `sed 's/.../\U.../'`.
+- **Scaffold tokens must be public Dart identifiers.** A leading `_` makes
+  a name library-private, so tokens like `__Feature__` break cross-file
+  references in `templates/` before substitution. Use `FeatureName` /
+  `featureName` / `feature_name` (and `PackageName` / `package_name`)
+  instead - see `scripts/new_feature.sh` / `new_package.sh`.
 - **Golden tests are platform-sensitive.** They're generated and verified in
   CI (Linux runner), not locally on macOS - a locally-passing golden test can
   still fail in CI due to font rendering differences. Don't regenerate

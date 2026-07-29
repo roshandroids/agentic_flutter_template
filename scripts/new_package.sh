@@ -24,14 +24,26 @@ log "Copying template"
 cp -R "$ROOT/templates/package_template" "$DEST"
 
 log "Renaming tokenized files"
-mv "$DEST/lib/__package__.dart" "$DEST/lib/$NAME.dart"
-mv "$DEST/lib/src/__package___base.dart" "$DEST/lib/src/${NAME}_base.dart"
-mv "$DEST/test/__package___test.dart" "$DEST/test/${NAME}_test.dart"
+mv "$DEST/lib/package_name.dart" "$DEST/lib/$NAME.dart"
+mv "$DEST/lib/src/package_name_base.dart" "$DEST/lib/src/${NAME}_base.dart"
+mv "$DEST/test/package_name_test.dart" "$DEST/test/${NAME}_test.dart"
 
 log "Substituting tokens"
 PASCAL="$(to_pascal_case "$NAME")"
+# Tokens are public Dart identifiers (no leading "_") so the template
+# itself analyzes cleanly under templates/package_template.
 find "$DEST" -type f \( -name '*.dart' -o -name '*.yaml' \) -print0 | xargs -0 \
-  sed -i '' -e "s/__package__/$NAME/g" -e "s/__Package__/$PASCAL/g"
+  sed -i '' -e "s/PackageName/$PASCAL/g" -e "s/package_name/$NAME/g"
+
+log "Adapting pubspec for packages/ + workspace"
+# Template resolves core from templates/ via ../../packages/core and has
+# no resolution: workspace (it is not a workspace member). After copy,
+# point at the sibling package and join the pub workspace.
+sed -i '' \
+  -e 's|path: ../../packages/core|path: ../core|' \
+  -e '/^version:/a\
+resolution: workspace' \
+  "$DEST/pubspec.yaml"
 
 echo
 echo "Created packages/$NAME. Next steps:"

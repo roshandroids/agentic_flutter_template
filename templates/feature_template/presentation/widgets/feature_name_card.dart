@@ -1,15 +1,15 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/__feature__.dart';
+import '../../domain/entities/feature_name.dart';
 
-/// TODO: replace with __feature__'s real presentation widget(s). Prefer
+/// TODO: replace with feature_name's real presentation widget(s). Prefer
 /// design_system's tokens/widgets over hardcoded values - see
 /// packages/design_system/README.md.
-class __Feature__Card extends StatelessWidget {
-  const __Feature__Card({required this.data, super.key});
+class FeatureNameCard extends StatelessWidget {
+  const FeatureNameCard({required this.data, super.key});
 
-  final __Feature__ data;
+  final FeatureName data;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class __Feature__Card extends StatelessWidget {
     return Card(
       child: Padding(
         padding: EdgeInsets.all(spacing.lg),
-        child: const Text('TODO: render __feature__'),
+        child: const Text('TODO: render feature_name'),
       ),
     );
   }

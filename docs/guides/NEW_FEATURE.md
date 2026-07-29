@@ -13,3 +13,8 @@ what belongs in each layer before filling them in - the script scaffolds
 structure, not implementation; per
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md), don't leave any of it as an
 unfilled placeholder past the PR that added it.
+
+The template under `templates/feature_template/` uses public placeholder
+identifiers (`FeatureName`, `featureName`, `feature_name`) so it analyzes
+cleanly before scaffolding. Leading-underscore tokens would be
+library-private in Dart and break cross-file references.

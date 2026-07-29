@@ -1,14 +1,16 @@
-name: __package__
-description: TODO describe __package__'s single job (see docs/architecture/PACKAGE_STRATEGY.md).
+# Analyzable in-place under templates/. scripts/new_package.sh rewrites
+# the core path to ../core and adds `resolution: workspace` after copy
+# into packages/<name>.
+name: package_name
+description: TODO describe package_name's single job (see docs/architecture/PACKAGE_STRATEGY.md).
 publish_to: "none"
 version: 0.1.0
-resolution: workspace
 environment:
   sdk: ^3.10.0
 
 dependencies:
   core:
-    path: ../core
+    path: ../../packages/core
 
 dev_dependencies:
   lints: ^5.0.0
