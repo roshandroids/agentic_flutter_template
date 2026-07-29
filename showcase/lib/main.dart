@@ -2,6 +2,8 @@ import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
+import 'modules/modules_screen.dart';
+
 void main() => runApp(const ShowcaseApp());
 
 /// Every token and shared widget in packages/design_system, rendered on
@@ -29,6 +31,15 @@ class ShowcaseScreen extends StatelessWidget {
 
     return AppScaffold(
       title: 'Design System Showcase',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.extension_outlined),
+          tooltip: 'Modules',
+          onPressed: () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (_) => const ModulesScreen()),
+          ),
+        ),
+      ],
       body: ListView(
         children: [
           const _Section(title: 'Buttons', child: _ButtonsShowcase()),

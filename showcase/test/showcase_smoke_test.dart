@@ -26,4 +26,19 @@ void main() {
     expect(find.text('Spacing scale'), findsOneWidget);
     expect(find.text('Radius scale'), findsOneWidget);
   });
+
+  testWidgets('Modules icon navigates to the Modules screen', (tester) async {
+    tester.view.physicalSize = const Size(800, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(const ShowcaseApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    await tester.tap(find.byTooltip('Modules'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Enabled modules'), findsOneWidget);
+  });
 }
