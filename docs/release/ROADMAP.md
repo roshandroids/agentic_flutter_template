@@ -7,7 +7,12 @@ where it's headed at a level above individual sprints
 
 ## Template roadmap (this repo itself)
 
-- [ ] First real module implementation (Firebase or Supabase) validating
-      the `modules/module_contracts` design against a real backend.
+- [x] First module wired end-to-end (`analytics`, console-logging
+      default) - proved the contract → composition-root → registry →
+      Playground pattern. See
+      [`docs/guides/ADDING_A_MODULE.md`](../guides/ADDING_A_MODULE.md).
+- [ ] First real *backend-integrated* module (Firebase or Supabase)
+      validating `modules/module_contracts` against an actual third-party
+      SDK, not just the console default.
 - [ ] `flavors` (dev/staging/prod build flavors) once a second environment
       is actually needed.
