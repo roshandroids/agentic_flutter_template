@@ -19,3 +19,4 @@ says so.
 - [ADR-0004](ADR-0004-result-failure-error-handling.md) - Result/Failure error handling
 - [ADR-0005](ADR-0005-ai-single-source-of-truth.md) - `.ai/` as the single AI source of truth
 - [ADR-0006](ADR-0006-feature-first-over-layer-first.md) - Feature-first over layer-first folder structure
+- [ADR-0007](ADR-0007-diagnostics-only-module-registry.md) - Diagnostics-only module registry

@@ -17,3 +17,8 @@ Format: `- [ADR-XXXX](../../docs/adr/ADR-XXXX-slug.md) — one-line behavioral i
 - [ADR-0005](../../docs/adr/ADR-0005-ai-single-source-of-truth.md) — AI
   instructions live only in `.ai/`; never add project rules directly to
   `.cursor/`, `.claude/`, or `.github/copilot-instructions.md`.
+- [ADR-0007](../../docs/adr/ADR-0007-diagnostics-only-module-registry.md) —
+  wiring a module into `composition_root.dart` also means adding a
+  `ModuleDescriptor` to `moduleRegistryProvider` there; the registry is
+  read-only metadata and must never construct or resolve a module itself -
+  composition root remains the only DI mechanism (see ADR-0003).

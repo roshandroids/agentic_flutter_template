@@ -5,5 +5,6 @@ library;
 
 export 'src/analytics_module.dart';
 export 'src/auth_module.dart';
+export 'src/module_registry.dart';
 export 'src/notifications_module.dart';
 export 'src/payments_module.dart';
