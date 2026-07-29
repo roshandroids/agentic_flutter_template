@@ -61,6 +61,14 @@ find "$DEST_TEST" -type f -name '*.dart' -print0 | xargs -0 \
     -e "s|import '../../presentation/|import 'package:app/features/$NAME/presentation/|g" \
     -e "s|import '../../infrastructure/|import 'package:app/features/$NAME/infrastructure/|g"
 
+log "Fixing import order after the rewrite above"
+# The rewrite turns a relative import into a package: import, merging what
+# were two directive sections (external package, then relative) into one -
+# `directives_ordering` (fatal under --fatal-infos, see melos.yaml's
+# analyze script) then flags it as unsorted. `dart fix` resolves it the
+# same way it would for a developer who wrote the import by hand.
+(cd "$APP" && dart fix --apply >/dev/null)
+
 echo
 echo "Created apps/app/lib/features/$NAME and apps/app/test/features/$NAME. Next steps:"
 echo "  1. Fill in domain/entities, the DTO mapping, and the repository endpoint - do not leave the TODOs."
