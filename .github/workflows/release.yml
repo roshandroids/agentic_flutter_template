@@ -40,7 +40,7 @@ jobs:
         run: git push --follow-tags
 
       - name: Create GitHub Release per tag pushed
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           generate_release_notes: true
           fail_on_unmatched_files: false
