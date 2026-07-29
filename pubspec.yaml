@@ -1,0 +1,80 @@
+name: flutter_template_workspace
+publish_to: "none"
+environment:
+  sdk: ^3.10.0
+
+# Dart's native pub workspaces feature (SDK 3.6+) is what actually links
+# every local package to every other local package - Melos (the
+# `melos:` section below) builds its scripting and independent-versioning
+# on top of this, but the underlying resolution mechanism is this
+# `workspace:` list, not Melos itself. No globs (a pub workspaces
+# limitation) - list every package explicitly. Each listed package's own
+# pubspec.yaml must have `resolution: workspace` (see
+# docs/architecture/PACKAGE_STRATEGY.md).
+workspace:
+  - apps/app
+  - packages/core
+  - packages/network
+  - packages/local_storage
+  - packages/design_system
+  - modules/module_contracts
+  - modules/analytics
+  - showcase
+  - tools/repo_tools
+
+dev_dependencies:
+  melos: ^8.2.2
+
+# Melos turns `workspace:` resolution into a real dev workflow: one
+# `melos bootstrap`, independent per-package semver + changelogs
+# (`melos version`), and `melos exec`/`melos run` fan-out across every
+# member. See docs/adr/ADR-0003-melos-monorepo-package-strategy.md for why
+# this is a monorepo at all, and docs/release/VERSIONING.md for the
+# release process this scripting drives.
+melos:
+  command:
+    bootstrap:
+      environment:
+        sdk: ^3.10.0
+    version:
+      # Independent versioning: packages/core and packages/design_system
+      # will not always change together. Conventional-commit scopes
+      # (feat(core): ..., fix(design_system): ...) drive per-package bumps.
+      branch: main
+      message: "chore(release): version packages"
+    analyze:
+      concurrency: 4
+    test:
+      concurrency: 4
+
+  scripts:
+    # --- Everyday commands (also wrapped by scripts/*.sh for non-melos users) ---
+    analyze:
+      run: melos exec -- dart analyze --fatal-infos
+      description: Run the analyzer on every package with its own strictness.
+
+    format:
+      run: dart format .
+      description: Format all Dart sources repo-wide.
+
+    format:check:
+      run: dart format --set-exit-if-changed .
+      description: Fail if any file is not formatted (CI uses this).
+
+    test:
+      run: melos exec --dir-exists=test --no-flutter -- dart test
+      description: Run tests for pure-Dart packages that have a test/ dir.
+
+    test:flutter:
+      run: melos exec --dir-exists=test --flutter -- flutter test
+      description: Run tests for Flutter packages/apps that have a test/ dir.
+
+    # --- Boundary + architecture enforcement (see docs/architecture/DEPENDENCY_RULES.md) ---
+    check:boundaries:
+      run: ./scripts/check_dependency_boundaries.sh
+      description: Fail if a package imports something its layer must not depend on.
+
+    # --- Codegen ---
+    generate:
+      run: melos exec --depends-on=build_runner -- dart run build_runner build --delete-conflicting-outputs
+      description: Run build_runner for every package that declares it.

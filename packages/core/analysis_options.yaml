@@ -1,0 +1,5 @@
+include: ../../analysis_options.yaml
+
+# This package must never gain a Flutter import - enforced by
+# scripts/check_dependency_boundaries.sh, not just this comment. See
+# docs/architecture/DEPENDENCY_RULES.md.

@@ -1,0 +1,10 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Modèle Flutter",
+  "dashboardTitle": "Tableau de bord",
+  "dashboardGreeting": "Bonjour, {name}!",
+  "dashboardItemCount": "{count, plural, =0{Aucun élément} =1{1 élément} other{{count} éléments}}",
+  "dashboardRefresh": "Actualiser",
+  "dashboardErrorRetry": "Réessayer",
+  "dashboardEmptyMessage": "Rien à afficher pour l'instant."
+}

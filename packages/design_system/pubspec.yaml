@@ -1,0 +1,23 @@
+name: design_system
+description: >
+  Shared Material 3 theme tokens, responsive layout, and common widgets used
+  by every app and by showcase/. One definition instead of each app
+  reinventing spacing/color/typography. See
+  docs/architecture/ARCHITECTURE.md "Design system".
+publish_to: "none"
+version: 0.1.0
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  core:
+    path: ../core
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter

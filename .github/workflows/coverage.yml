@@ -1,0 +1,40 @@
+name: Coverage
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: coverage-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    name: Coverage gate (pure-Dart packages)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: dart pub global activate melos
+      - run: dart pub global run melos bootstrap
+      - run: dart pub global activate coverage
+
+      - name: Run coverage gate
+        # Threshold comes from template.config.yaml `testing.coverage_threshold`
+        # - scripts/check_coverage.sh reads it, so this workflow never
+        # hardcodes a number that could drift from the config.
+        run: ./scripts/check_coverage.sh
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: packages/*/coverage/lcov.info
+          retention-days: 30

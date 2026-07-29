@@ -1,0 +1,42 @@
+name: Bug report
+description: Something is broken.
+labels: ["type:bug", "status:triage"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: dropdown
+    id: package
+    attributes:
+      label: Affected package
+      description: This is a monorepo - name the specific package, not just "the app".
+      options:
+        - apps/app
+        - packages/core
+        - packages/network
+        - packages/local_storage
+        - packages/design_system
+        - other (say which, in the description)
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform + version
+      placeholder: "iOS 18.1 / Pixel 8 Android 15 / Chrome 130 (web)"
+    validations:
+      required: true

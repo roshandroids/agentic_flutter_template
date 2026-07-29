@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dart_packages:
+    name: Test pure-Dart packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: dart pub global activate melos
+      - run: dart pub global run melos bootstrap
+      - name: dart test (packages with a test/ dir and no Flutter dep)
+        run: dart pub global run melos run test
+
+  flutter_packages:
+    name: Test Flutter packages + app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: dart pub global activate melos
+      - run: dart pub global run melos bootstrap
+      - name: flutter test (widget, excluding golden — see golden.yml)
+        run: dart pub global run melos exec --dir-exists=test --flutter -- flutter test --exclude-tags=golden

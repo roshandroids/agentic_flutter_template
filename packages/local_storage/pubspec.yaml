@@ -1,0 +1,26 @@
+name: local_storage
+description: >
+  Implements core's KeyValueStore (shared_preferences) and SecureStore
+  (flutter_secure_storage). Repositories depend on core's interfaces, never
+  on these plugins directly - see docs/architecture/ARCHITECTURE.md
+  "Local storage".
+publish_to: "none"
+version: 0.1.0
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  core:
+    path: ../core
+  flutter:
+    sdk: flutter
+  flutter_secure_storage: ^10.3.1
+  shared_preferences: ^2.3.3
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_secure_storage_platform_interface: ^2.0.1
+  flutter_test:
+    sdk: flutter

@@ -1,0 +1,46 @@
+name: Release
+
+# Versioning + changelog + GitHub Release, driven by Conventional Commits.
+# `melos version` inspects commit history since the last tag per package
+# (independent versioning - see docs/adr/ADR-0003) and only bumps + tags
+# packages that actually changed. This workflow is manual
+# (workflow_dispatch), not automatic on every push to main, because
+# releasing is a deliberate act, not a side effect of merging.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: dart pub global activate melos
+      - run: dart pub global run melos bootstrap
+
+      - name: Version + changelog (conventional commits)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          dart pub global run melos version --yes
+
+      - name: Push tags
+        run: git push --follow-tags
+
+      - name: Create GitHub Release per tag pushed
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          fail_on_unmatched_files: false

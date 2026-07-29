@@ -1,0 +1,51 @@
+name: Package publish (pub.dev)
+
+# Manual, deliberate publishing - never on every push. A maintainer decides
+# when a packages/* package is ready for the public pub.dev registry and
+# runs this by hand. Dry-run is the default so a misconfigured OIDC/publish
+# setup fails loud in a safe mode before anything real ships.
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Package directory under packages/ to publish"
+        required: true
+        type: string
+      dry_run:
+        description: "Dry run only (no real publish)"
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  publish:
+    name: Publish ${{ inputs.package }}
+    runs-on: ubuntu-latest
+    # pub.dev publishing via GitHub Actions OIDC - see
+    # https://dart.dev/tools/pub/automated-publishing. No secrets stored in
+    # this repo; pub.dev trusts this workflow + environment by configuration
+    # on pub.dev's side instead.
+    permissions:
+      id-token: write
+    environment: pub.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Resolve dependencies
+        working-directory: packages/${{ inputs.package }}
+        run: dart pub get
+
+      - name: Dry run
+        if: ${{ inputs.dry_run }}
+        working-directory: packages/${{ inputs.package }}
+        run: dart pub publish --dry-run
+
+      - name: Publish
+        if: ${{ !inputs.dry_run }}
+        working-directory: packages/${{ inputs.package }}
+        run: dart pub publish --force

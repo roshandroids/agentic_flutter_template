@@ -1,0 +1,16 @@
+name: repo_tools
+description: >
+  Internal CLI that reads template.config.yaml so shell scripts never
+  hardcode what the config already states. Not published; not a workspace
+  dependency of any app/package - invoked directly via `dart run`.
+publish_to: "none"
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  yaml: ^3.1.2
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0

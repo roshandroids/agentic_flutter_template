@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "app (debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/app/lib/main.dart",
+      "cwd": "apps/app"
+    },
+    {
+      "name": "app (profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/app/lib/main.dart",
+      "cwd": "apps/app",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "showcase (design system gallery)",
+      "request": "launch",
+      "type": "dart",
+      "program": "showcase/lib/main.dart",
+      "cwd": "showcase"
+    }
+  ]
+}

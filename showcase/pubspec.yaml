@@ -1,0 +1,27 @@
+name: showcase
+description: >
+  Design-system component gallery - every token and shared widget in
+  packages/design_system, rendered so a change is visible without running
+  the full app. See packages/design_system/README.md.
+publish_to: "none"
+version: 0.1.0
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  core:
+    path: ../packages/core
+  design_system:
+    path: ../packages/design_system
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

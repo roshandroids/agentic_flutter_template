@@ -1,0 +1,70 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+pubspec.lock
+!/pubspec.lock
+pubspec_overrides.yaml
+*.g.dart.bak
+
+# Flutter
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+**/ios/Flutter/.last_build_id
+**/ios/Pods/
+**/ios/.symlinks/
+**/android/.gradle/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/ephemeral/
+
+# Generated code (kept OUT of git - regenerate via `melos run generate`)
+*.freezed.dart
+*.g.dart
+*.gr.dart
+*.mocks.dart
+lib/l10n/generated/
+lib/gen/
+
+# Coverage / test artifacts
+coverage/
+*.lcov
+.test_coverage.dart
+
+# Melos
+.melos_tool/
+
+# IDE
+.idea/
+*.iml
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env / secrets - never commit real values, see docs/operations/SECRETS.md
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+google-services.json
+GoogleService-Info.plist
+
+# Release artifacts land here, never in git
+release/*
+!release/.gitkeep
+!release/README.md
+
+# Claude Code worktrees / local session state
+.claude/worktrees/
+.claude/settings.local.json

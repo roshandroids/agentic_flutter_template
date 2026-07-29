@@ -1,0 +1,24 @@
+"pkg:core":
+  - changed-files:
+      - any-glob-to-any-file: "packages/core/**"
+"pkg:network":
+  - changed-files:
+      - any-glob-to-any-file: "packages/network/**"
+"pkg:local_storage":
+  - changed-files:
+      - any-glob-to-any-file: "packages/local_storage/**"
+"pkg:design_system":
+  - changed-files:
+      - any-glob-to-any-file: "packages/design_system/**"
+"app":
+  - changed-files:
+      - any-glob-to-any-file: "apps/app/**"
+"docs":
+  - changed-files:
+      - any-glob-to-any-file: "docs/**"
+"ci":
+  - changed-files:
+      - any-glob-to-any-file: ".github/workflows/**"
+"ai":
+  - changed-files:
+      - any-glob-to-any-file: ".ai/**"

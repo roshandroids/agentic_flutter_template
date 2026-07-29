@@ -1,0 +1,15 @@
+name: __package__
+description: TODO describe __package__'s single job (see docs/architecture/PACKAGE_STRATEGY.md).
+publish_to: "none"
+version: 0.1.0
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  core:
+    path: ../core
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0

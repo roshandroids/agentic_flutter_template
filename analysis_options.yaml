@@ -1,0 +1,61 @@
+# Root analysis config. Every package includes this file with:
+#   include: ../../analysis_options.yaml
+# so the whole workspace shares one bar, but a package MAY layer stricter
+# rules on top (see packages/core/analysis_options.yaml for the
+# Flutter-import ban, enforced by lint AND by
+# scripts/check_dependency_boundaries.sh - lint catches it locally in the
+# editor, the script is the CI gate that cannot be silenced with an
+# ignore comment).
+#
+# Deliberately `package:lints`, not `package:flutter_lints`: this file is
+# included by pure-Dart packages (packages/core, packages/network) that
+# have no Flutter dependency to resolve a flutter_lints include with.
+# Flutter-specific rules below are listed explicitly by name instead - the
+# analyzer already recognizes them without needing flutter_lints as a dep.
+include: package:lints/recommended.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    missing_required_param: error
+    missing_return: error
+    invalid_annotation_target: ignore # freezed pattern
+    todo: ignore
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.gr.dart"
+    - "**/*.mocks.dart"
+    - "build/**"
+
+linter:
+  rules:
+    # Correctness
+    always_declare_return_types: true
+    avoid_dynamic_calls: true
+    avoid_returning_null_for_void: true
+    cancel_subscriptions: true
+    close_sinks: true
+    no_logic_in_create_state: true
+    unawaited_futures: true
+    use_build_context_synchronously: true
+
+    # API design / DX
+    always_put_required_named_parameters_first: true
+    avoid_print: true
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_final_locals: true
+    prefer_final_in_for_each: true
+    prefer_single_quotes: true
+    require_trailing_commas: true
+    sort_child_properties_last: true
+    use_super_parameters: true
+
+    # Consistency
+    directives_ordering: true
+    sort_pub_dependencies: true

@@ -1,0 +1,4 @@
+include: ../../analysis_options.yaml
+
+# This package is the only one allowed to import package:dio - see
+# docs/architecture/DEPENDENCY_RULES.md.

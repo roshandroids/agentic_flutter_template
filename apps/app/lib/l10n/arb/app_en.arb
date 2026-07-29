@@ -1,0 +1,31 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Template",
+  "@appTitle": {
+    "description": "Shown in the OS task switcher / browser tab."
+  },
+  "dashboardTitle": "Dashboard",
+  "dashboardGreeting": "Hello, {name}!",
+  "@dashboardGreeting": {
+    "description": "Greeting on the dashboard screen.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Ada"
+      }
+    }
+  },
+  "dashboardItemCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
+  "@dashboardItemCount": {
+    "description": "Pluralized item count on the dashboard summary card.",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "dashboardRefresh": "Refresh",
+  "dashboardErrorRetry": "Try again",
+  "dashboardEmptyMessage": "Nothing to show yet."
+}

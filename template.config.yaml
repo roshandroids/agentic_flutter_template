@@ -1,0 +1,94 @@
+# Single source of truth for "what is this repo, right now".
+#
+# Every script under scripts/ reads this file via `dart run tools/repo_tools
+# config <key>` instead of hardcoding assumptions - so turning a module on/off,
+# adding a platform, or renaming the org happens in ONE place and every tool
+# picks it up. See docs/reference/PROJECT_CONFIGURATION.md for the full key
+# reference and a table of which script reads which key.
+
+project:
+  name: flutter_template
+  organization: com.example
+  description: Production Flutter monorepo template.
+
+# Platforms this repo actively builds and tests for. `scripts/doctor.sh`
+# checks the local toolchain against this list; `.github/workflows/build_verify.yml`
+# builds only what's listed here so an app that never ships to Windows
+# doesn't pay Windows CI cost.
+platforms:
+  - android
+  - ios
+  - web
+  # - macos
+  # - windows
+  # - linux
+
+# Feature modules - see modules/README.md. Each entry names a directory under
+# modules/ that must exist and expose the contract in
+# modules/module_contracts. `scripts/new_module.sh` appends here;
+# `scripts/doctor.sh` fails if an entry has no matching directory.
+modules:
+  enabled: []
+  available:
+    - firebase
+    - supabase
+    - serverpod
+    - auth
+    - analytics
+    - notifications
+    - payments
+
+# Local workspace packages and the architectural layer each belongs to.
+# `scripts/check_dependency_boundaries.sh` reads this to know which import
+# rule applies to which package - so adding a new pure-Dart package
+# automatically gets the "no Flutter imports" gate without editing the
+# script itself.
+#
+# NOT every root pubspec.yaml `workspace:` member belongs here - this list
+# is scoped to packages that commit to a fixed architectural layer.
+# `apps/app` and `showcase` are consumers, not layered packages; `tools/
+# repo_tools` is a dev tool; concrete `modules/*` (e.g. `modules/analytics`)
+# deliberately opt out because a module is allowed to depend on whatever
+# SDK it wraps, including Flutter plugins - see modules/README.md.
+# `scripts/doctor.sh` checks that every path listed here IS a workspace
+# member (the direction that would otherwise fail silently); it does not
+# require the reverse.
+packages:
+  - name: core
+    path: packages/core
+    layer: domain # zero Flutter imports, zero other local-package imports
+  - name: network
+    path: packages/network
+    layer: infrastructure # may depend on: core
+  - name: local_storage
+    path: packages/local_storage
+    layer: infrastructure # may depend on: core
+  - name: design_system
+    path: packages/design_system
+    layer: presentation # may depend on: core (types only)
+  - name: module_contracts
+    path: modules/module_contracts
+    layer: domain # zero Flutter imports - contracts must stay implementable by any SDK
+
+architecture:
+  pattern: clean-architecture-feature-first
+  state_management: riverpod
+  navigation: go_router
+  di: riverpod-composition-root
+
+testing:
+  coverage_threshold: 90
+  golden_tests: true
+
+documentation:
+  require_adr_for_architectural_change: true
+  forbid_new_top_level_docs_folder_without_justification: true
+
+ai:
+  canonical_source: .ai/
+  supported_surfaces:
+    - claude-code
+    - cursor
+    - github-copilot
+    - chatgpt
+    - gemini

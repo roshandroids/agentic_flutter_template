@@ -1,0 +1,12 @@
+# Default owner for anything not matched below.
+* @OWNER_GITHUB_HANDLE
+
+# Architecture-sensitive paths require the architecture owner's review -
+# these are the paths an ADR should exist for before merging (see
+# docs/adr/README.md).
+/docs/adr/                    @OWNER_GITHUB_HANDLE
+/packages/core/               @OWNER_GITHUB_HANDLE
+/template.config.yaml         @OWNER_GITHUB_HANDLE
+/pubspec.yaml                 @OWNER_GITHUB_HANDLE
+/.github/workflows/           @OWNER_GITHUB_HANDLE
+/.ai/                         @OWNER_GITHUB_HANDLE

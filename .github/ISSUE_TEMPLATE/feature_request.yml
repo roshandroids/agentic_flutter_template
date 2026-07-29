@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose new functionality.
+labels: ["type:feature", "status:triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve
+      description: The gap or friction today - not the solution yet.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach
+    validations:
+      required: false
+  - type: checkboxes
+    id: architecture
+    attributes:
+      label: Architecture impact
+      options:
+        - label: This adds/changes a package boundary, state pattern, or navigation shape (needs an ADR - see docs/adr/README.md)

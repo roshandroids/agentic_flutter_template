@@ -1,0 +1,10 @@
+---
+description: Canonical repo instructions - pointer only
+alwaysApply: true
+---
+
+Canonical instructions for this repository live in `.ai/AGENTS.md`. Read
+that file (and the directories it links: `.ai/roles/`, `.ai/agents/`,
+`.ai/workflow/WORKFLOW.md`) before making changes. Do not treat this file as
+a second source of rules - it exists only so Cursor auto-loads a pointer to
+`.ai/`. See `docs/adr/ADR-0005-ai-single-source-of-truth.md`.
