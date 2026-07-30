@@ -4,6 +4,7 @@ import '../modules/modules_screen.dart';
 import '../sections/components/components_screen.dart';
 import '../sections/design_tokens/design_tokens_screen.dart';
 import '../sections/home/home_screen.dart';
+import '../sections/packages/packages_screen.dart';
 import '../sections/responsive/responsive_screen.dart';
 import 'showcase_section.dart';
 
@@ -17,6 +18,13 @@ final List<ShowcaseSection> showcaseSections = [
     icon: Icons.home_outlined,
     selectedIcon: Icons.home,
     builder: (_) => const HomeScreen(),
+  ),
+  ShowcaseSection(
+    id: 'packages',
+    label: 'Packages',
+    icon: Icons.inventory_2_outlined,
+    selectedIcon: Icons.inventory_2,
+    builder: (_) => const PackagesScreen(),
   ),
   ShowcaseSection(
     id: 'components',
