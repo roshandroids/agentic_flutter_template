@@ -34,7 +34,7 @@ jobs:
         run: flutter pub get
       - working-directory: apps/app
         run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: apps/app/build/web
 
