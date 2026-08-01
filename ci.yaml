@@ -9,7 +9,10 @@ quality:
   format: true
   analyze: true
   test: true
-  golden: true
+  golden: false
+  # Goldens: Linux CI fonts drift vs local macOS (see docs/release/RISKS.md).
+  # Re-enable after regenerating packages/design_system goldens on ubuntu + platform
+  # golden step treats exit 79 (no matching tags) as skip.
   coverage: false
   scripts:
     - bash ./scripts/check_dependency_boundaries.sh
