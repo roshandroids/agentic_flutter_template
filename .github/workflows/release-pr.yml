@@ -1,0 +1,25 @@
+name: Release PR
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: release-pr-${{ github.repository }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    if: startsWith(github.head_ref, 'release/')
+    uses: roshandroids/platform-ci/.github/workflows/quality.yml@v1
+    with:
+      config-path: ci.yaml
+
+  build:
+    if: startsWith(github.head_ref, 'release/')
+    needs: quality
+    uses: roshandroids/platform-ci/.github/workflows/build.yml@v1
+    with:
+      config-path: ci.yaml
+      trigger: release
+      sha: ${{ github.sha }}

@@ -1,0 +1,49 @@
+# agentic_flutter_template — platform-ci (web only for now)
+schema: 1
+flutter: "3.38.9"
+kind: melos
+paths:
+  - .
+
+quality:
+  format: true
+  analyze: true
+  test: true
+  golden: false
+  # Goldens: Linux CI fonts drift vs local macOS (see docs/release/RISKS.md).
+  # Re-enable after regenerating packages/design_system goldens on ubuntu + platform
+  # golden step treats exit 79 (no matching tags) as skip.
+  coverage: false
+  scripts:
+    - bash ./scripts/check_dependency_boundaries.sh
+
+pr_builds: []
+main_builds: []
+release_targets:
+  - web
+
+build:
+  web:
+    args:
+      - "--release"
+    script: >-
+      (cd apps/app && flutter pub get && flutter build web --release) &&
+      mkdir -p "${GITHUB_WORKSPACE}/dist/web" &&
+      cp -R apps/app/build/web/. "${GITHUB_WORKSPACE}/dist/web/"
+
+deploy:
+  pages:
+    enabled: true
+    source: web
+  firebase:
+    enabled: false
+  demos:
+    enabled: false
+
+publish:
+  pub:
+    enabled: false
+    dry_run_on_pr: true
+
+hooks:
+  local: true
