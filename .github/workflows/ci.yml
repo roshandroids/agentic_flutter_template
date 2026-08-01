@@ -1,0 +1,26 @@
+name: CI
+
+# platform-ci — quality + web. Required: quality / Quality | build / Resolve targets | build / Build (web)
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    uses: roshandroids/platform-ci/.github/workflows/quality.yml@v1
+    with:
+      config-path: ci.yaml
+
+  build:
+    needs: quality
+    uses: roshandroids/platform-ci/.github/workflows/build.yml@v1
+    with:
+      config-path: ci.yaml
+      trigger: ${{ github.event_name }}
+      sha: ${{ github.sha }}
