@@ -38,6 +38,10 @@ assuming what's enabled.
    development → finish (self-review + commit + PR) → review-feedback →
    review-fixes → merge-ready. The agent specs in [agents/](agents/) mirror
    these stages 1:1 - don't invent a different pipeline shape.
+5. **CI/release binding:** [docs/operations/RELEASE.md](../docs/operations/RELEASE.md)
+   and root [`ci.yaml`](../ci.yaml). Cheap feature PRs; Release PR for
+   version/CHANGELOG + web build; tag rebuilds then publishes. No permanent
+   `dev`. platform-ci `roshandroids/platform-ci@v1`.
 5. **Tests live at the layer that changed.** Domain logic → unit test in the
    same package. Widget → widget test. Cross-feature flow → integration test.
    See [docs/testing/README.md](../docs/testing/README.md).

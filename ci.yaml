@@ -14,10 +14,8 @@ quality:
   scripts:
     - bash ./scripts/check_dependency_boundaries.sh
 
-pr_builds:
-  - web
-main_builds:
-  - web
+pr_builds: []
+main_builds: []
 release_targets:
   - web
 
@@ -33,8 +31,6 @@ build:
 deploy:
   pages:
     enabled: true
-    on:
-      - main
     source: web
   firebase:
     enabled: false

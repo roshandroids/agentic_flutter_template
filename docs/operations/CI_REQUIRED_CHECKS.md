@@ -1,9 +1,6 @@
-# Required status checks (platform-ci)
+# Required status checks
 
-| Check | When |
-|-------|------|
-| `quality / Quality` | PR → main |
-| `build / Resolve targets` | PR → main |
-| `build / Build (web)` | PR → main |
-
-Android/iOS desktop verify removed from PR CI (opt-in later via `ci.yaml`).
+| PR type | Required |
+|---------|----------|
+| Feature → main | `quality / Quality` |
+| `release/*` → main | Quality + green `build / Build (web)` (discipline) |
