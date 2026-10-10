@@ -1,5 +1,10 @@
 {
   "version": "0.2.0",
+  // Every runnable Flutter app in this workspace gets a debug config here -
+  // apps/app (the product, mobile + web) and showcase (the Playground,
+  // web-only - see showcase/README.md). examples/ has no configs yet
+  // because it's deliberately empty (see examples/README.md) - add one
+  // here when a package is extracted and gets its own example app.
   "configurations": [
     {
       "name": "app (debug)",
@@ -17,11 +22,37 @@
       "flutterMode": "profile"
     },
     {
-      "name": "showcase (design system gallery)",
+      "name": "app (release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/app/lib/main.dart",
+      "cwd": "apps/app",
+      "flutterMode": "release"
+    },
+    {
+      "name": "app (web - chrome)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/app/lib/main.dart",
+      "cwd": "apps/app",
+      "args": ["-d", "chrome"]
+    },
+    {
+      "name": "showcase / Playground (debug - chrome)",
       "request": "launch",
       "type": "dart",
       "program": "showcase/lib/main.dart",
-      "cwd": "showcase"
+      "cwd": "showcase",
+      "args": ["-d", "chrome"]
+    },
+    {
+      "name": "showcase / Playground (profile - chrome)",
+      "request": "launch",
+      "type": "dart",
+      "program": "showcase/lib/main.dart",
+      "cwd": "showcase",
+      "flutterMode": "profile",
+      "args": ["-d", "chrome"]
     }
   ]
 }
